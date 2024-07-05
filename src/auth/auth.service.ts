@@ -55,22 +55,22 @@ export class AuthService {
     }
 
     const { password: _ , ...userData} = user.toJSON();
-
+    
     return {user: userData, token: this.getJwtToken({id: user.id})};
   }
 
-  // async checkToken(email: string): Promise<LoginResponse>{
+  async checkToken(email: string): Promise<LoginResponse>{
 
-  //   const user = await this.userModel.findOne({email});
+    const user = await this.userModel.findOne({email});
 
-  //   if (!user){
-  //     throw new UnauthorizedException('Not valid credentials');
-  //   }
+    if (!user){
+      throw new UnauthorizedException('Not valid credentials');
+    }
 
-  //   const { password: _ , ...userData} = user.toJSON();
+    const { password: _ , ...userData} = user.toJSON();
 
-  //   return {user: userData, token: this.getJwtToken({id: user.id})};
-  // }
+    return {user: userData, token: this.getJwtToken({id: user.id})};
+  }
 
   async register(registerUserDto: RegisterUserDto): Promise<LoginResponse> {
     const user = await this.create({...registerUserDto});

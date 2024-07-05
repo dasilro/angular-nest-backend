@@ -27,7 +27,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get()
   findAll(@Request() req: Request) {
-    //const user = req['user'];
     return this.authService.findAll();
   }
 
@@ -35,10 +34,7 @@ export class AuthController {
   @Get('/check-token')
   async checkToken(@Request() req: Request): Promise<LoginResponse> {    
     const user = req['user'] as User;
-    return {
-      user,
-      token: this.authService.getJwtToken({id: user.id})
-    }    
+    return await this.authService.checkToken(user.email);
   }
 
   // @Get(':id')
